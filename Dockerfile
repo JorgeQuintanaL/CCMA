@@ -12,7 +12,7 @@ RUN apt-get update \
 		&& chmod +x /usr/bin/chromedriver \
 		&& mkdir CCMA
 
-COPY requirements.txt consultas_energia.csv eleconomista.py /CCMA/
+COPY requirements.txt eleconomista.py /CCMA/
 
 RUN pip3 install -r /CCMA/requirements.txt
 
