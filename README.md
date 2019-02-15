@@ -17,7 +17,6 @@ Para arrancar el contenedor de forma local se debe ejecutar el siguiente comando
 
 ```
   docker run -d --name [NOMBRE_DEL_CONTENEDOR] -v [VOLUMEN_HOST]:[VOLUMEN_CONTENEDOR] [NOMBRE_DE_LA_IMAGEN]
-
 ```
 
 Para poder acceder a los resultados de forma local se debe crear un volumen, en donde estarán los archivos necesarios para que el contenedor funcione de forma correcta, y en donde se gurdará el archivo con los resultados del proceso, en este caso un archivo csv con la siguiente estructura: economista_[NOMBRE_CLUSTER]_antioquia.csv. Para monitoriar si el contenedor está corriendo y cuántos recursos está utilizando se pueden ejecutar los siguientes comandos, respectivamente:
