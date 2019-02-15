@@ -27,4 +27,9 @@ Para poder acceder a los resultados de forma local se debe crear un volumen, en 
   docker stats
 ```
 
-### TODO: Se debe documentar todo el proceso y generar pruebas sobre el código. Versión preliminar no aprobada.
+#### TODO: 
+  * Se debe documentar todo el proceso
+  * Se deben generar pruebas sobre los .py
+  * Se deben optimizar las imagenes usando como base Linux Alpine y no Ubuntu, ya que las imagenes quedan de más de 1GB. Para esto se debe probar y documentar la forma de instalar pandas y Numpy (desde los .whl) en Linux Alpine
+
+Versión preliminar no aprobada
