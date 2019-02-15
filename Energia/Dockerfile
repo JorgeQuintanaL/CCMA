@@ -1,19 +1,16 @@
 FROM ubuntu:16.04
 
-COPY geckodriver-v0.24.0-linux64.tar.gz /
-
 RUN apt-get update \
-		&& apt-get -y upgrade \
-		&& apt-get -y install software-properties-common \
-		&& apt-add-repository ppa:mozillateam/firefox-next \
-		&& apt-get install -y firefox xvfb python3 python3-pip \
-		&& tar -xvzf geckodriver-v0.24.0-linux64.tar.gz \
-		&& chmod +x geckodriver \
-		&& cp geckodriver /usr/local/bin/ \
+		&& apt-get install -y libasound2 libnspr4 libnss3 libxss1 xdg-utils unzip lsb-release \
+		&& apt-get install -y libappindicator1 fonts-liberation wget python3 python3-pip \
+		&& wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+		&& dpkg -i google-chrome*.deb \
+		&& wget https://chromedriver.storage.googleapis.com/2.45/chromedriver_linux64.zip \
+		&& unzip chromedriver_linux64.zip \
+		&& mv chromedriver /usr/bin/chromedriver \
+		&& chown root:root /usr/bin/chromedriver \
+		&& chmod +x /usr/bin/chromedriver \
 		&& mkdir CCMA
-
-RUN Xvfb :10 -ac &
-ENV DISPLAY=:10
 
 COPY requirements.txt consultas_energia.csv eleconomista.py /CCMA/
 

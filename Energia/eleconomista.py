@@ -2,10 +2,26 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import pandas as pd
 import math
-from selenium.webdriver.firefox.options import Options
+from slackclient import SlackClient
 
-options = Options()
-options.headless = True
+options = webdriver.ChromeOptions()
+options.binary_location='/usr/bin/google-chrome-stable'
+options.add_argument('--headless')
+options.add_argument('--start-maximized')
+options.add_argument('disable-infobars')
+options.add_argument('--disable-extensions')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+
+slack_token = 'xoxp-422092365460-433826927207-552024788773-538585b8d34dacfe41d56059a821b12b'
+sc = SlackClient(slack_token)
+
+sc.api_call(
+  "chat.postEphemeral",
+  channel="analytics_data",
+  text="Starting WebScraping in eleconomista.com! :tada:",
+  user='UCRQAT963'
+)
 
 consultas = pd.read_csv('consultas_energia.csv')
 consultas = list(consultas.values)
@@ -14,7 +30,7 @@ eleconomista = []
 
 for tema_busqueda in consultas:
     tema_busqueda = tema_busqueda.upper().replace(' ', '-')
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.Chrome(chrome_options=options)
     driver.get('http://empresite.eleconomistaamerica.co/Actividad/{}/departamento/ANTIOQUIA/'.format(tema_busqueda))
     response = driver.find_element_by_tag_name('body')
     resultados = driver.execute_script('return arguments[0].innerHTML', response)
@@ -31,14 +47,14 @@ for tema_busqueda in consultas:
         paginas = math.ceil(int(total_resultados)/30)
 
     for i in range(1, paginas + 1):
-        driver = webdriver.Firefox(options=options)
+        driver = webdriver.Chrome(chrome_options=options)
         driver.get('http://empresite.eleconomistaamerica.co/Actividad/{}/departamento/ANTIOQUIA/PgNum-{}/'.format(tema_busqueda, i))
         response = driver.find_element_by_tag_name('body')
         resultados = driver.execute_script('return arguments[0].innerHTML', response)
         resultados_html = BeautifulSoup(resultados, 'html.parser')
         driver.close()
         empresas = resultados_html.find_all('li', {'class': 'resultado_pagina'})
-        
+
         for empresa in empresas:
             try:
                 nombre_empresa = empresa.find_all('a')[0].get_text()
@@ -61,11 +77,11 @@ for tema_busqueda in consultas:
             except:
                 ciudad = None
 
-            driver = webdriver.Firefox(options=options)
+            driver = webdriver.Chrome(chrome_options=options)
             driver.get(link_empresa)
             try:
                 response = driver.find_element_by_class_name('list06')
-                resultados = driver.execute_script('return arguments[0].innerHTML', response) 
+                resultados = driver.execute_script('return arguments[0].innerHTML', response)
                 resultados_html = BeautifulSoup(resultados, 'html.parser')
                 driver.close()
                 actividad = resultados_html.find_all('span', {'class': 'category'})[0].get_text()
@@ -84,3 +100,10 @@ for tema_busqueda in consultas:
 
 eleconomista = pd.DataFrame(eleconomista)
 eleconomista.to_csv('economista_energia_antioquia.csv', sep = ';', encoding = 'utf-8')
+
+sc.api_call(
+  "chat.postEphemeral",
+  channel="analytics_data",
+  text="Process Finished and saved! :tada:",
+  user='UCRQAT963'
+)

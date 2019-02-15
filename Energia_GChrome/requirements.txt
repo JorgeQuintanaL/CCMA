@@ -1,4 +1,0 @@
-selenium==3.8.0
-bs4
-pandas
-slackclient
