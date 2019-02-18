@@ -104,6 +104,6 @@ eleconomista.to_csv('resultados_antioquia.csv', sep = ';', encoding = 'utf-8')
 sc.api_call(
   "chat.postEphemeral",
   channel="analytics_data",
-  text="Process Finished and saved! :tada:",
+  text="Process Finished and saved!! :tada:",
   user='UCRQAT963'
 )
