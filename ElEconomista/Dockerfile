@@ -16,8 +16,6 @@ COPY requirements.txt eleconomista.py /CCMA/
 
 RUN pip3 install -r /CCMA/requirements.txt
 
-VOLUME /Users/jorgequintana/Desktop/CCMA /CCMA
-
 WORKDIR /CCMA
 
 CMD python3 eleconomista.py
