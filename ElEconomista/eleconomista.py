@@ -13,14 +13,13 @@ options.add_argument('--disable-extensions')
 options.add_argument('--no-sandbox')
 options.add_argument('--disable-dev-shm-usage')
 
-slack_token = 'xoxp-422092365460-433826927207-552024788773-538585b8d34dacfe41d56059a821b12b'
 sc = SlackClient(slack_token)
 
 sc.api_call(
   "chat.postEphemeral",
-  channel="analytics_data",
+  channel=channel,
   text="Starting WebScraping in eleconomista.com! :tada:",
-  user='UCRQAT963'
+  user=user
 )
 
 consultas = pd.read_csv('consultas.csv')
@@ -103,7 +102,7 @@ eleconomista.to_csv('resultados_antioquia.csv', sep = ';', encoding = 'utf-8')
 
 sc.api_call(
   "chat.postEphemeral",
-  channel="analytics_data",
+  channel=channel,
   text="Process Finished and saved!! :tada:",
-  user='UCRQAT963'
+  user=user
 )
